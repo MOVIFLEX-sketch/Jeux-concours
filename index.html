@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gagnez votre kit Moviflex – Jeu Concours Pré-Lancement</title>
+  <meta name="description" content="Participez au jeu concours Moviflex et tentez de gagner votre kit complet. Marque française dédiée à la mobilité. Bientôt sur Amazon.">
+  <meta property="og:title" content="🎁 Gagnez votre kit Moviflex – Jeu Concours">
+  <meta property="og:description" content="Tentez de gagner votre kit Moviflex. Lancement exclusif bientôt sur Amazon. Rejoignez les premiers.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MOVIFLEX-sketch/moviflex-assets/main/images/icone-movi.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       RESET & ROOT VARIABLES
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:         #00D97E;
+      --green-hover:   #00C070;
+      --green-dim:     rgba(0, 217, 126, 0.12);
+      --green-glow:    rgba(0, 217, 126, 0.22);
+      --green-border:  rgba(0, 217, 126, 0.28);
+
+      --bg:            #060d09;
+      --surface:       #0b1510;
+      --surface-2:     #111e16;
+      --surface-3:     #172418;
+      --border:        rgba(255,255,255,0.08);
+
+      --text:          #ffffff;
+      --text-2:        #96a89d;
+      --text-3:        #56705f;
+
+      --font-head: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+
+      --r:    14px;
+      --r-sm: 10px;
+      --r-lg: 22px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a   { color: var(--green); text-decoration: none; }
+
+    /* ============================================================
+       SCROLL PROGRESS
+    ============================================================ */
+    .progress {
+      position: fixed; top: 0; left: 0; z-index: 300;
+      height: 2px; width: 0; background: var(--green);
+      transition: width 0.1s linear;
+    }
+
+    /* ============================================================
+       LOADING OVERLAY
+    ============================================================ */
+    .overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(8,8,8,0.88);
+      align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    }
+    .overlay.on { display: flex; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .overlay p { font-size: 14px; color: var(--text-2); }
+
+    /* ============================================================
+       UTILITIES
+    ============================================================ */
+    .container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .green     { color: var(--green); }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--green-dim);
+      border: 1px solid var(--green-border);
+      color: var(--green);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px;
+    }
+
+    .section-head { text-align: center; margin-bottom: 48px; }
+    .section-head .tag { margin-bottom: 18px; }
+
+    .h2 {
+      font-family: var(--font-head);
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 700; letter-spacing: -0.025em; line-height: 1.12;
+      margin-bottom: 14px;
+    }
+
+    .lead { font-size: 17px; color: var(--text-2); max-width: 480px; margin: 0 auto; }
+
+    .hr { width: 100%; height: 1px; background: var(--border); }
+
+    /* Fade-in on scroll */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.72s ease, transform 0.72s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* Staggered children */
+    .stagger > * { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .stagger.in > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+    .stagger.in > *:nth-child(2) { opacity:1; transform:none; transition-delay:.1s; }
+    .stagger.in > *:nth-child(3) { opacity:1; transform:none; transition-delay:.2s; }
+    .stagger.in > *:nth-child(4) { opacity:1; transform:none; transition-delay:.3s; }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-family: var(--font-head); font-size: 15px; font-weight: 700;
+      padding: 16px 36px; border-radius: 100px; border: none; cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      text-decoration: none; white-space: nowrap; min-width: 200px;
+    }
+    .btn-green {
+      background: var(--green); color: #000;
+    }
+    .btn-green:hover {
+      background: var(--green-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px var(--green-glow);
+    }
+    .btn-green:active { transform: translateY(0); }
+
+    .btn-outline {
+      background: transparent; color: var(--green);
+      border: 2px solid var(--green-border);
+    }
+    .btn-outline:hover {
+      background: var(--green-dim);
+      border-color: var(--green);
+    }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 20px;
+      background: rgba(8,8,8,0.82);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    .nav.scrolled { box-shadow: 0 2px 32px rgba(0,0,0,0.6); }
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img {
+      height: 70px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+    .nav-pill {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+      color: var(--green); background: var(--green-dim);
+      border: 1px solid var(--green-border);
+      padding: 5px 13px; border-radius: 100px;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      min-height: 100svh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 110px 0 72px;
+      /*
+        Couches fond hero (avant → arrière) :
+        1. Cross grid texture
+        2. Spotlight vert derrière le produit (droite)
+        3. Vignette gauche (lisibilité texte)
+        4. Dégradé directionnel : ouvert au centre, fermé haut/bas
+        5. fond.png
+      */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M24 20v8M20 24h8' stroke='rgba(255%2C255%2C255%2C0.022)' stroke-width='1'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse 54% 62% at 70% 52%, rgba(0,217,126,0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 48% 80% at 4% 50%,  rgba(6,13,9,0.58)   0%, transparent 68%),
+        linear-gradient(to bottom,
+          rgba(6,13,9,0.95) 0%,
+          rgba(6,13,9,0.48) 32%,
+          rgba(6,13,9,0.52) 68%,
+          rgba(6,13,9,0.97) 100%),
+        url("https://raw.githubusercontent.com/MOVIFLEX-sketch/moviflex-assets/main/images/fond.png");
+      background-size:     48px 48px, cover, cover, cover, cover;
+      background-repeat:   repeat,    no-repeat, no-repeat, no-repeat, no-repeat;
+      background-position: center,    center,    center,    center,    center;
+    }
+
+    /* ambient glow */
+    .hero-glow {
+      position: absolute; pointer-events: none;
+      border-radius: 50%; filter: blur(90px);
+    }
+    /* Atmosphérique gauche — derrière le texte */
+    .hero-glow-1 {
+      width: 640px; height: 520px;
+      top: 8%; left: -6%;
+      background: radial-gradient(ellipse, rgba(0,217,126,0.07) 0%, transparent 70%);
+    }
+    /* Spotlight produit — droite, plus intense */
+    .hero-glow-2 {
+      width: 520px; height: 520px;
+      top: 50%; right: 6%;
+      transform: translateY(-50%);
+      background: radial-gradient(circle, rgba(0,217,126,0.14) 0%, rgba(0,217,126,0.04) 50%, transparent 70%);
+      filter: blur(70px);
+    }
+    /* Accent supérieur central — halo de marque */
+    .hero-glow-3 {
+      width: 480px; height: 260px;
+      top: -4%; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,217,126,0.06) 0%, transparent 70%);
+    }
+
+    /* fade-out at bottom */
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 160px;
+      background: linear-gradient(transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    /* ── Hero background art (sport/kiné) ── */
+    .hero-art {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .hero-bands {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    /* Anatomical figure */
+    .hero-figure {
+      position: absolute;
+      right: -2%; top: 50%;
+      transform: translateY(-50%);
+      height: 82%;
+      max-height: 580px;
+      opacity: 0.18;
+    }
+    @keyframes figPulse {
+      0%,100% { opacity: 0.18; }
+      50%      { opacity: 0.22; }
+    }
+    .hero-figure { animation: figPulse 5s ease-in-out infinite; }
+
+    @media (max-width: 767px) {
+      .hero-figure {
+        left: 50%; right: auto;
+        transform: translate(-50%, -50%);
+        opacity: 0.07;
+        height: 70%;
+        animation: none;
+      }
+    }
+
+    .hero-wrap {
+      position: relative; z-index: 1;
+      width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 48px;
+      text-align: center;
+    }
+
+    /* Eyebrow badge with live dot */
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--green-dim); border: 1px solid var(--green-border);
+      color: var(--green); font-size: 13px; font-weight: 500;
+      padding: 8px 18px; border-radius: 100px;
+      animation: fadeDown 0.8s ease both;
+      margin-bottom: 22px;
+    }
+    .dot-live {
+      width: 7px; height: 7px; background: var(--green); border-radius: 50%;
+      animation: pulse 2.2s ease infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(0.7); opacity: 0.45; }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text { max-width: 740px; }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(38px, 9vw, 76px);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 1.04;
+      margin-bottom: 22px;
+      animation: fadeUp 0.85s 0.18s ease both;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.4vw, 19px);
+      color: var(--text-2); max-width: 520px; margin: 0 auto 36px;
+      animation: fadeUp 0.85s 0.32s ease both;
+    }
+
+    .hero-actions {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      animation: fadeUp 0.85s 0.46s ease both;
+    }
+
+    .hero-trust {
+      font-size: 13px; color: var(--text-3);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* Product visual */
+    .hero-visual {
+      width: 100%; max-width: 440px;
+      animation: fadeUp 1s 0.58s ease both;
+      position: relative;
+    }
+
+    .hero-img-box {
+      border: 1px solid rgba(0,217,126,0.30);
+      border-radius: 28px;
+      padding: 0;
+      display: flex; align-items: stretch;
+      position: relative; overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(0,217,126,0.07),
+        0 50px 100px rgba(0,0,0,0.65),
+        0 0 80px rgba(0,217,126,0.10);
+    }
+
+    /* Spot vert en bas — éclairage scène */
+    .hero-img-box::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(to top, rgba(0,217,126,0.12) 0%, transparent 100%);
+      z-index: 2; pointer-events: none;
+    }
+
+    /* Reflet fin en haut */
+    .hero-img-box::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 8%; right: 8%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,217,126,0.55), transparent);
+      z-index: 3;
+    }
+
+    .hero-img-box img {
+      width: 100%; height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display: block;
+      position: relative; z-index: 1;
+    }
+
+    .hero-img-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: var(--text-3); font-size: 13px; padding: 32px; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .hero-img-placeholder span:first-child { font-size: 52px; }
+
+    /* ---- Pack contents list below product image ---- */
+    .pack-contents {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 14px;
+    }
+    .pack-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .pack-num {
+      width: 20px; height: 20px;
+      min-width: 20px;
+      background: var(--green);
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head);
+      flex-shrink: 0;
+    }
+    .pack-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.70);
+      line-height: 1.35;
+    }
+    @media (max-width: 480px) {
+      .pack-contents { grid-template-columns: 1fr; gap: 7px; }
+      .pack-label { font-size: 12px; }
+    }
+
+    /* Badge overlay — en haut dans la carte, sur l'image */
+    .hero-badge {
+      position: absolute; top: 16px; left: 16px; z-index: 4;
+      background: rgba(6,13,9,0.82);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,217,126,0.35);
+      border-radius: 10px; padding: 9px 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.40);
+    }
+    .hero-badge-top  { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 0.09em; text-transform: uppercase; }
+    .hero-badge-main { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: #fff; margin-top: 3px; }
+
+    /* ============================================================
+       BRAND SECTION
+    ============================================================ */
+    .brand-section { padding: 80px 0; }
+
+    .brand-inner {
+      max-width: 660px; margin: 0 auto; text-align: center;
+    }
+
+    .brand-bar {
+      width: 44px; height: 3px; background: var(--green);
+      border-radius: 2px; margin: 0 auto 32px;
+    }
+
+    .brand-body {
+      font-size: clamp(17px, 2.4vw, 20px);
+      color: var(--text-2); line-height: 1.75;
+    }
+    .brand-body strong { color: var(--text); font-weight: 600; }
+
+    /* ============================================================
+       REWARDS SECTION
+    ============================================================ */
+    .rewards-section { padding: 80px 0; }
+
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .r-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 24px 22px;
+      display: flex; align-items: center; gap: 18px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.28s, transform 0.28s, box-shadow 0.28s;
+    }
+    .r-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--border);
+      transition: background 0.28s;
+    }
+    .r-card:hover {
+      border-color: var(--green-border);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+    }
+    .r-card:hover::after { background: var(--green); }
+
+    .r-card.featured {
+      border-color: var(--green-border);
+      background: linear-gradient(140deg, rgba(0,217,126,0.07) 0%, var(--surface) 65%);
+    }
+    .r-card.featured::after { background: var(--green); }
+
+    .r-ico  { font-size: 30px; flex-shrink: 0; line-height: 1; }
+    .r-body { flex: 1; min-width: 0; }
+    .r-lbl  { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-3); margin-bottom: 4px; }
+    .r-name { font-family: var(--font-head); font-size: 18px; font-weight: 700; line-height: 1.2; }
+    .r-note { font-size: 13px; color: var(--text-2); margin-top: 3px; }
+
+    .r-qty {
+      background: var(--green); color: #000;
+      font-family: var(--font-head); font-size: 13px; font-weight: 700;
+      padding: 6px 14px; border-radius: 100px; flex-shrink: 0;
+    }
+
+    .r-all {
+      margin-top: 24px; padding: 18px 20px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--r);
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .r-all-ico { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .r-all-txt { font-size: 15px; color: var(--text-2); line-height: 1.6; }
+    .r-all-txt strong { color: var(--text); font-weight: 600; }
+
+    .r-validity {
+      margin-top: 16px; text-align: center;
+      font-size: 13px; color: var(--text-3);
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+
+    /* ============================================================
+       HOW TO
+    ============================================================ */
+    .howto-section { padding: 80px 0; }
+
+    .steps-grid {
+      display: grid; grid-template-columns: 1fr; gap: 14px;
+    }
+
+    .step-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 30px 26px;
+      transition: border-color 0.28s, transform 0.28s;
+    }
+    .step-card:hover {
+      border-color: var(--green-border);
+      transform: translateY(-3px);
+    }
+
+    .step-num {
+      font-family: var(--font-head); font-size: 52px; font-weight: 700;
+      color: rgba(0,217,126,0.13); line-height: 1; margin-bottom: 14px;
+      transition: color 0.28s;
+    }
+    .step-card:hover .step-num { color: rgba(0,217,126,0.28); }
+
+    .step-ico  { font-size: 26px; margin-bottom: 10px; }
+    .step-name { font-family: var(--font-head); font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .step-desc { font-size: 15px; color: var(--text-2); }
+
+    .step-chips { display: flex; gap: 9px; margin-top: 16px; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-dim); border: 1px solid var(--green-border);
+      color: var(--green); font-size: 12px; font-weight: 600;
+      padding: 7px 14px; border-radius: 100px;
+      transition: background 0.2s;
+    }
+    .chip:hover { background: rgba(0,217,126,0.2); }
+
+    .verif-note {
+      margin-top: 28px; padding: 15px 20px;
+      background: rgba(0,217,126,0.04);
+      border: 1px solid var(--green-border); border-radius: var(--r-sm);
+      font-size: 14px; color: var(--text-2);
+      text-align: center; display: flex; align-items: center; justify-content: center; gap: 9px;
+    }
+
+    /* ============================================================
+       BONUS SECTION
+    ============================================================ */
+    .bonus-section { padding: 80px 0; }
+
+    .bonus-card {
+      background: linear-gradient(140deg, rgba(0,217,126,0.08) 0%, rgba(0,217,126,0.03) 50%, var(--surface) 100%);
+      border: 1px solid var(--green-border);
+      border-radius: var(--r-lg); padding: 52px 32px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .bonus-card::before {
+      content: ''; position: absolute; top: -50px; right: -50px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,217,126,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bonus-card::after {
+      content: ''; position: absolute; bottom: -40px; left: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(0,217,126,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .bonus-ico   { font-size: 48px; display: block; margin-bottom: 20px; position: relative; z-index: 1; }
+    .bonus-title {
+      font-family: var(--font-head);
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700; letter-spacing: -0.02em; margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .bonus-text {
+      font-size: 17px; color: var(--text-2); max-width: 480px; margin: 0 auto 10px;
+      line-height: 1.7; position: relative; z-index: 1;
+    }
+    .bonus-text strong { color: var(--text); font-weight: 600; }
+
+    .bonus-pill {
+      display: inline-block;
+      background: var(--green); color: #000;
+      font-family: var(--font-head); font-size: 22px; font-weight: 700;
+      padding: 3px 16px; border-radius: 7px;
+    }
+
+    .bonus-sub {
+      margin-top: 20px;
+      display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+      background: rgba(0,217,126,0.08);
+      border: 1px solid rgba(0,217,126,0.30);
+      border-radius: 100px;
+      padding: 10px 22px;
+      font-size: 13px; font-weight: 600; color: var(--green);
+      letter-spacing: 0.02em;
+      position: relative; z-index: 1;
+      box-shadow: 0 0 20px rgba(0,217,126,0.10);
+    }
+    .bonus-sub::before {
+      content: '✓';
+      font-size: 12px; font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ============================================================
+       FORM
+    ============================================================ */
+    .form-section { padding: 80px 0; }
+
+    .form-shell {
+      max-width: 580px; margin: 0 auto;
+    }
+
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 36px 28px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+
+    .flabel {
+      display: block; font-size: 13px; font-weight: 500; color: var(--text-2);
+      margin-bottom: 8px; letter-spacing: 0.01em;
+    }
+    .flabel .req { color: var(--green); margin-left: 2px; }
+
+    .finput {
+      width: 100%;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 14px 16px;
+      font-family: var(--font-body); font-size: 16px; color: var(--text);
+      outline: none; transition: border-color 0.22s, box-shadow 0.22s;
+      -webkit-appearance: none;
+    }
+    .finput::placeholder { color: var(--text-3); }
+    .finput:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,217,126,0.13);
+      background: var(--surface-3);
+    }
+
+    /* checkboxes */
+    .checks { margin-top: 24px; display: flex; flex-direction: column; gap: 13px; }
+
+    .chk-row {
+      display: flex; align-items: flex-start; gap: 13px; cursor: pointer;
+    }
+
+    .chk-row input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 20px; height: 20px; min-width: 20px;
+      background: var(--surface-2); border: 2px solid var(--border);
+      border-radius: 6px; cursor: pointer; margin-top: 1px;
+      position: relative; transition: border-color 0.2s, background 0.2s;
+    }
+    .chk-row input[type="checkbox"]:checked {
+      background: var(--green); border-color: var(--green);
+    }
+    .chk-row input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; top: 2px; left: 5px;
+      width: 6px; height: 10px;
+      border: 2.5px solid #000; border-top: none; border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .chk-txt { font-size: 14px; color: var(--text-2); line-height: 1.55; }
+    .chk-txt strong { color: var(--text); }
+
+    /* form error */
+    .ferror {
+      display: none; margin-top: 12px;
+      font-size: 13px; color: #ff7070;
+      padding: 10px 14px; background: rgba(255,80,80,0.07);
+      border: 1px solid rgba(255,80,80,0.2); border-radius: var(--r-sm);
+    }
+    .ferror.on { display: block; }
+
+    .form-submit { margin-top: 28px; }
+    .btn-full { width: 100%; font-size: 16px; padding: 19px 36px; }
+
+    .form-disclaimer {
+      margin-top: 22px; padding: 18px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: var(--r-sm);
+    }
+    .form-disclaimer p {
+      font-size: 12px; color: var(--text-3); line-height: 1.65;
+      margin-bottom: 7px;
+    }
+    .form-disclaimer p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       CONFIRMATION
+    ============================================================ */
+    .confirm-section { display: none; padding: 80px 0; }
+    .confirm-section.on { display: block; }
+
+    .confirm-inner {
+      max-width: 540px; margin: 0 auto; text-align: center;
+    }
+
+    .confirm-ico {
+      width: 80px; height: 80px;
+      background: var(--green-dim); border: 2px solid var(--green-border);
+      border-radius: 50%; margin: 0 auto 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .confirm-title {
+      font-family: var(--font-head);
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .confirm-body {
+      font-size: 17px; color: var(--text-2); line-height: 1.7; margin-bottom: 34px;
+    }
+
+    .confirm-social {
+      margin-top: 32px; padding: 26px 24px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r);
+    }
+    .confirm-social p { font-size: 14px; font-weight: 500; color: var(--text-2); margin-bottom: 16px; }
+
+    .social-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .s-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--text); font-size: 14px; font-weight: 600;
+      padding: 11px 22px; border-radius: 100px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .s-btn:hover { border-color: var(--green-border); color: var(--green); }
+
+    /* ============================================================
+       REASSURANCE
+    ============================================================ */
+    .assur-section { padding: 60px 0; border-top: 1px solid var(--border); }
+
+    .assur-grid {
+      display: grid; grid-template-columns: 1fr; gap: 22px;
+    }
+
+    .assur-item { display: flex; align-items: flex-start; gap: 16px; }
+    .assur-ico {
+      width: 44px; height: 44px; min-width: 44px;
+      background: var(--green-dim); border: 1px solid var(--green-border);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 19px;
+    }
+    .assur-name { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+    .assur-desc { font-size: 13px; color: var(--text-3); line-height: 1.5; }
+
+    /* ============================================================
+       LEGAL
+    ============================================================ */
+    .legal-section { padding: 40px 0 60px; }
+
+    .legal-wrap {
+      max-width: 680px; margin: 0 auto; text-align: center;
+    }
+    .legal-label {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 12px;
+    }
+    .legal-text { font-size: 12px; color: var(--text-3); line-height: 1.75; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px; text-align: center;
+    }
+    .footer-logo img {
+      height: 28px; width: auto; display: block; object-fit: contain;
+      margin: 0 auto 8px;
+      opacity: 0.75;
+    }
+    .footer-txt { font-size: 13px; color: var(--text-3); }
+
+    /* ============================================================
+       RESPONSIVE — TABLET & DESKTOP
+    ============================================================ */
+    @media (min-width: 480px) {
+      .form-row { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 640px) {
+      .rewards-grid  { grid-template-columns: 1fr 1fr; }
+      .steps-grid    { grid-template-columns: repeat(3, 1fr); }
+      .assur-grid    { grid-template-columns: repeat(3, 1fr); }
+      .form-card     { padding: 44px 40px; }
+    }
+
+    @media (min-width: 768px) {
+      .hero-wrap {
+        flex-direction: row; text-align: left;
+        align-items: center; justify-content: space-between;
+        gap: 52px;
+      }
+      .hero-text { flex: 1; max-width: none; }
+      .hero-sub  { margin-left: 0; }
+      .hero-actions { align-items: flex-start; }
+      .hero-visual { flex-shrink: 0; width: 400px; max-width: 400px; }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-visual { width: 440px; max-width: 440px; }
+    }
+
+    /* ============================================================
+       LIGHT BODY — toutes les sections sous le hero
+       On redéfinit les variables CSS localement : zéro changement
+       dans les sections hero qui utilisent les valeurs sombres
+    ============================================================ */
+    .light-body {
+      --surface:   #162019;
+      --surface-2: #1c2a20;
+      --surface-3: #233028;
+      --border:    rgba(255,255,255,0.08);
+      --text:      #f2f2f0;
+      --text-2:    #8aa492;
+      --text-3:    #526b5a;
+      background:  #0f1510;
+    }
+
+    /* ── Share buttons (step 02) ── */
+    .share-chips {
+      display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap;
+    }
+    .share-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+      padding: 9px 16px; border-radius: 100px;
+      border: 1px solid var(--green-border);
+      background: var(--green-dim); color: var(--green);
+      text-decoration: none; cursor: pointer;
+      transition: background 0.2s, transform 0.18s, box-shadow 0.2s;
+      white-space: nowrap; font-family: var(--font-body);
+    }
+    .share-chip:hover {
+      background: rgba(0,217,126,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,217,126,0.18);
+    }
+    .share-chip:active { transform: translateY(0); }
+    /* platform tints on hover */
+    .share-chip.wa:hover  { background: rgba(37,211,102,0.18); border-color: rgba(37,211,102,0.4); color: #25D366; }
+    .share-chip.sms:hover { background: rgba(52,199,89,0.15);  border-color: rgba(52,199,89,0.35);  color: #34C759; }
+    .share-chip.em:hover  { background: rgba(0,122,255,0.12);  border-color: rgba(0,122,255,0.3);   color: #5b9cf6; }
+  </style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div class="progress" id="prog"></div>
+
+<!-- Loading overlay -->
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <p>Envoi en cours…</p>
+</div>
+
+<!-- ================================================================
+     NAV
+================================================================ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <img src="https://raw.githubusercontent.com/MOVIFLEX-sketch/moviflex-assets/main/images/logo-blanc.png"
+           alt="Moviflex">
+    </div>
+    <span class="nav-pill">Bientôt sur Amazon</span>
+  </div>
+</nav>
+
+
+<!-- ================================================================
+     HERO
+================================================================ -->
+<section class="hero" id="top">
+
+  <!-- ── Sport / kiné background art ── -->
+  <div class="hero-art" aria-hidden="true">
+
+    <!-- Diagonal elastic-tension lines -->
+    <svg class="hero-bands" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="-80"  y1="900" x2="820"  y2="-100" stroke="rgba(0,217,126,0.045)" stroke-width="1.5"/>
+      <line x1="180"  y1="900" x2="1080" y2="-100" stroke="rgba(0,217,126,0.032)" stroke-width="1.5"/>
+      <line x1="520"  y1="900" x2="1420" y2="-100" stroke="rgba(0,217,126,0.022)" stroke-width="1.5"/>
+      <line x1="-380" y1="900" x2="520"  y2="-100" stroke="rgba(0,217,126,0.018)" stroke-width="1"/>
+      <line x1="920"  y1="900" x2="1640" y2="-100" stroke="rgba(0,217,126,0.015)" stroke-width="1"/>
+    </svg>
+
+    <!-- Abstract anatomical figure — person using resistance band (squat stretch) -->
+    <svg class="hero-figure" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <defs>
+        <!-- Joint glow -->
+        <filter id="jg" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="3.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Strong glow (hands/band) -->
+        <filter id="sg" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Subtle band glow -->
+        <filter id="bg" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Range-of-motion concentric rings -->
+      <circle cx="200" cy="240" r="190" stroke="rgba(0,217,126,0.04)" stroke-width="1"/>
+      <circle cx="200" cy="240" r="148" stroke="rgba(0,217,126,0.055)" stroke-width="1"/>
+      <circle cx="200" cy="240" r="106" stroke="rgba(0,217,126,0.07)" stroke-width="1" stroke-dasharray="5,8"/>
+
+      <!-- Central body axis -->
+      <line x1="200" y1="20" x2="200" y2="480"
+            stroke="rgba(0,217,126,0.06)" stroke-width="1" stroke-dasharray="6,9"/>
+
+      <!-- ── Head ── -->
+      <circle cx="200" cy="72" r="28" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+      <circle cx="200" cy="72" r="17" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+      <!-- Neck -->
+      <line x1="200" y1="100" x2="200" y2="126"
+            stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+
+      <!-- Clavicle arc -->
+      <path d="M144 144 Q200 132 256 144"
+            stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+      <!-- Spine -->
+      <path d="M200 126 C198 168 196 208 200 256"
+            stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+
+      <!-- ── Left arm ── -->
+      <line x1="144" y1="144" x2="82"  y2="200" stroke="rgba(255,255,255,0.16)" stroke-width="2"/>
+      <line x1="82"  y1="200" x2="48"  y2="276" stroke="rgba(255,255,255,0.13)" stroke-width="2"/>
+
+      <!-- ── Right arm ── -->
+      <line x1="256" y1="144" x2="318" y2="200" stroke="rgba(255,255,255,0.16)" stroke-width="2"/>
+      <line x1="318" y1="200" x2="352" y2="276" stroke="rgba(255,255,255,0.13)" stroke-width="2"/>
+
+      <!-- ── Resistance band (elastic curve) ── -->
+      <path d="M48 276 C96 236 304 236 352 276"
+            stroke="rgba(0,217,126,0.65)" stroke-width="2.5"
+            stroke-dasharray="8,5" filter="url(#bg)"/>
+      <!-- tension arrows at band ends -->
+      <line x1="18"  y1="276" x2="44"  y2="276"
+            stroke="rgba(0,217,126,0.32)" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <line x1="356" y1="276" x2="382" y2="276"
+            stroke="rgba(0,217,126,0.32)" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <!-- ── Hip ── -->
+      <line x1="168" y1="256" x2="232" y2="256"
+            stroke="rgba(255,255,255,0.13)" stroke-width="2"/>
+
+      <!-- ── Left leg — wide squat ── -->
+      <line x1="168" y1="256" x2="128" y2="368" stroke="rgba(255,255,255,0.13)" stroke-width="2"/>
+      <line x1="128" y1="368" x2="106" y2="464" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
+
+      <!-- ── Right leg — wide squat ── -->
+      <line x1="232" y1="256" x2="272" y2="368" stroke="rgba(255,255,255,0.13)" stroke-width="2"/>
+      <line x1="272" y1="368" x2="294" y2="464" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
+
+      <!-- Feet -->
+      <line x1="86"  y1="467" x2="128" y2="467" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+      <line x1="272" y1="467" x2="314" y2="467" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+
+      <!-- ══ JOINT DOTS ══ -->
+      <!-- Shoulders -->
+      <circle cx="144" cy="144" r="5.5" fill="rgba(0,217,126,0.8)"  filter="url(#jg)"/>
+      <circle cx="256" cy="144" r="5.5" fill="rgba(0,217,126,0.8)"  filter="url(#jg)"/>
+      <!-- Elbows -->
+      <circle cx="82"  cy="200" r="4.5" fill="rgba(0,217,126,0.68)" filter="url(#jg)"/>
+      <circle cx="318" cy="200" r="4.5" fill="rgba(0,217,126,0.68)" filter="url(#jg)"/>
+      <!-- Hands (band anchors) — brightest -->
+      <circle cx="48"  cy="276" r="6.5" fill="rgba(0,217,126,0.95)" filter="url(#sg)"/>
+      <circle cx="352" cy="276" r="6.5" fill="rgba(0,217,126,0.95)" filter="url(#sg)"/>
+      <!-- Hips -->
+      <circle cx="168" cy="256" r="5"   fill="rgba(0,217,126,0.62)" filter="url(#jg)"/>
+      <circle cx="232" cy="256" r="5"   fill="rgba(0,217,126,0.62)" filter="url(#jg)"/>
+      <!-- Knees -->
+      <circle cx="128" cy="368" r="4.5" fill="rgba(0,217,126,0.50)" filter="url(#jg)"/>
+      <circle cx="272" cy="368" r="4.5" fill="rgba(0,217,126,0.50)" filter="url(#jg)"/>
+      <!-- Ankles -->
+      <circle cx="106" cy="464" r="3.5" fill="rgba(0,217,126,0.32)"/>
+      <circle cx="294" cy="464" r="3.5" fill="rgba(0,217,126,0.32)"/>
+
+      <!-- ══ Anatomical reference markers (+) — kiné style ══ -->
+      <g stroke="rgba(0,217,126,0.22)" stroke-width="1">
+        <line x1="44"  y1="134" x2="52"  y2="134"/><line x1="48"  y1="130" x2="48"  y2="138"/>
+        <line x1="348" y1="134" x2="356" y2="134"/><line x1="352" y1="130" x2="352" y2="138"/>
+        <line x1="68"  y1="318" x2="76"  y2="318"/><line x1="72"  y1="314" x2="72"  y2="322"/>
+        <line x1="324" y1="318" x2="332" y2="318"/><line x1="328" y1="314" x2="328" y2="322"/>
+        <line x1="195" y1="492" x2="205" y2="492"/><line x1="200" y1="487" x2="200" y2="497"/>
+        <line x1="195" y1="34"  x2="205" y2="34" /><line x1="200" y1="29"  x2="200" y2="39"/>
+      </g>
+
+      <!-- Ambient floating dots -->
+      <circle cx="26"  cy="180" r="2"   fill="rgba(255,255,255,0.07)"/>
+      <circle cx="374" cy="158" r="2"   fill="rgba(255,255,255,0.07)"/>
+      <circle cx="58"  cy="420" r="1.5" fill="rgba(255,255,255,0.06)"/>
+      <circle cx="342" cy="430" r="1.5" fill="rgba(255,255,255,0.06)"/>
+      <circle cx="200" cy="508" r="2"   fill="rgba(255,255,255,0.05)"/>
+      <circle cx="28"  cy="46"  r="1.5" fill="rgba(0,217,126,0.18)"/>
+      <circle cx="372" cy="46"  r="1.5" fill="rgba(0,217,126,0.18)"/>
+    </svg>
+  </div>
+  <!-- ── end background art ── -->
+
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-glow hero-glow-3"></div>
+
+  <div class="container">
+    <div class="hero-wrap">
+
+      <!-- Text -->
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="dot-live"></span>
+          Jeu concours pré-lancement
+        </div>
+        <h1 class="hero-title">
+          🎁 Gagnez votre<br>kit <span class="green">Moviflex</span>
+        </h1>
+        <p class="hero-sub">
+          Améliorez votre mobilité et votre renforcement avec notre kit complet.
+          Rejoignez les premiers à découvrir Moviflex.
+        </p>
+        <div class="hero-actions">
+          <a href="#form" class="btn btn-green">
+            Je participe
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <span class="hero-trust">🇫🇷 Marque française &nbsp;·&nbsp; Mobilité &amp; performance</span>
+        </div>
+      </div>
+
+      <!-- Visual -->
+      <div class="hero-visual">
+        <div class="hero-img-box">
+          <img src="https://raw.githubusercontent.com/MOVIFLEX-sketch/moviflex-assets/main/images/pack-complet.png"
+               alt="Kit Moviflex – pack complet élastiques de mobilité">
+        </div>
+
+        <!-- Contenu du pack -->
+        <div class="pack-contents">
+          <div class="pack-item">
+            <span class="pack-num">1</span>
+            <span class="pack-label">Bandes en latex</span>
+          </div>
+          <div class="pack-item">
+            <span class="pack-num">2</span>
+            <span class="pack-label">Bandes en tissu</span>
+          </div>
+          <div class="pack-item">
+            <span class="pack-num">3</span>
+            <span class="pack-label">3 niveaux de résistance</span>
+          </div>
+          <div class="pack-item">
+            <span class="pack-num">4</span>
+            <span class="pack-label">Guide vidéo gratuit inclus</span>
+          </div>
+          <div class="pack-item">
+            <span class="pack-num">5</span>
+            <span class="pack-label">Sac de transport fourni</span>
+          </div>
+          <div class="pack-item">
+            <span class="pack-num">6</span>
+            <span class="pack-label">Conçu par un kiné</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     LIGHT BODY — fond beige chaud pour tout le contenu sous le hero
+================================================================ -->
+<div class="light-body">
+
+<!-- ================================================================
+     BRAND POSITIONING
+================================================================ -->
+<section class="brand-section">
+  <div class="container">
+    <div class="brand-inner reveal">
+      <div class="brand-bar"></div>
+      <p class="brand-body">
+        <strong>Moviflex est une marque française dédiée au mouvement, à la mobilité et au bien-être.</strong><br>
+        Des solutions simples et efficaces pour bouger mieux au quotidien.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="hr"></div></div>
+
+
+<!-- ================================================================
+     REWARDS
+================================================================ -->
+<section class="rewards-section" id="recompenses">
+  <div class="container">
+
+    <div class="section-head reveal">
+      <div class="tag">🏆 Les récompenses</div>
+      <h2 class="h2">Ce que vous pouvez <span class="green">gagner</span></h2>
+      <p class="lead">Des lots exclusifs pour les gagnants du tirage au sort</p>
+    </div>
+
+    <div class="rewards-grid stagger reveal">
+
+      <div class="r-card featured">
+        <div class="r-ico">🎁</div>
+        <div class="r-body">
+          <div class="r-lbl">Grand lot</div>
+          <div class="r-name">Kit Moviflex complet offert</div>
+          <div class="r-note">Accès prioritaire au lancement</div>
+        </div>
+        <div class="r-qty">×3</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-ico">🔥</div>
+        <div class="r-body">
+          <div class="r-lbl">Réduction</div>
+          <div class="r-name">−50% à l'achat</div>
+          <div class="r-note">Offre de lancement exclusive</div>
+        </div>
+        <div class="r-qty">×2</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-ico">⚡</div>
+        <div class="r-body">
+          <div class="r-lbl">Réduction</div>
+          <div class="r-name">−30% à l'achat</div>
+          <div class="r-note">Offre de lancement exclusive</div>
+        </div>
+        <div class="r-qty">×2</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-ico">🎯</div>
+        <div class="r-body">
+          <div class="r-lbl">Pour tous les participants</div>
+          <div class="r-name">Offre exclusive inscrits</div>
+          <div class="r-note">Réservée aux membres de la liste</div>
+        </div>
+        <div class="r-qty">100%</div>
+      </div>
+
+    </div>
+
+    <div class="r-all reveal">
+      <div class="r-all-ico">⏳</div>
+      <p class="r-all-txt">
+        <strong>Important :</strong> Les offres seront valables
+        <strong>30 jours après le lancement</strong> officiel du produit sur Amazon.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="container"><div class="hr"></div></div>
+
+
+<!-- ================================================================
+     HOW TO PARTICIPATE
+================================================================ -->
+<section class="howto-section" id="participer">
+  <div class="container">
+
+    <div class="section-head reveal">
+      <div class="tag">📋 Participation</div>
+      <h2 class="h2">Comment <span class="green">participer</span> ?</h2>
+      <p class="lead">3 étapes simples pour tenter de gagner votre kit</p>
+    </div>
+
+    <div class="steps-grid stagger reveal">
+
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-ico">📱</div>
+        <h3 class="step-name">Suivre Moviflex</h3>
+        <p class="step-desc">Suivez-nous sur TikTok ou Instagram pour rester informé du lancement.</p>
+        <div class="step-chips">
+          <a href="https://www.tiktok.com/@moviflexbykine" class="chip" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.95a8.27 8.27 0 004.84 1.55V7.07a4.85 4.85 0 01-1.07-.38z"/>
+            </svg>
+            TikTok
+          </a>
+          <a href="https://www.instagram.com/moviflexbykine/" class="chip" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-ico">🔗</div>
+        <h3 class="step-name">Partager le jeu</h3>
+        <p class="step-desc">Partagez ce jeu concours à <strong style="color:var(--text)">3 amis minimum</strong> pour valider votre participation.</p>
+
+        <div class="share-chips">
+
+          <!-- WhatsApp -->
+          <a id="shareWA" class="share-chip wa" target="_blank" rel="noopener" href="#">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.115.553 4.1 1.523 5.824L.057 23.943l6.303-1.454A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.214-3.733.861.883-3.625-.236-.374A9.818 9.818 0 1112 21.818z"/>
+            </svg>
+            WhatsApp
+          </a>
+
+          <!-- SMS -->
+          <a id="shareSMS" class="share-chip sms" href="#">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            SMS
+          </a>
+
+          <!-- Email -->
+          <a id="shareEmail" class="share-chip em" href="#">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Email
+          </a>
+
+          <!-- Native share (mobile, hidden on desktop if API absent) -->
+          <button id="shareNative" class="share-chip" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            Partager
+          </button>
+
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-ico">✉️</div>
+        <h3 class="step-name">Remplir le formulaire</h3>
+        <p class="step-desc">Complétez le formulaire ci-dessous avec vos informations pour finaliser votre inscription.</p>
+        <div class="step-chips">
+          <a href="#form" class="chip">Formulaire ↓</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="verif-note reveal">
+      <span>🔍</span>
+      <span>Les gagnants seront vérifiés. Un suivi actif des comptes Moviflex sera exigé au moment du tirage.</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="container"><div class="hr"></div></div>
+
+
+<!-- ================================================================
+     BONUS VIRALITY
+================================================================ -->
+<section class="bonus-section" id="bonus">
+  <div class="container">
+    <div class="bonus-card reveal">
+      <span class="bonus-ico">🎁</span>
+      <h2 class="bonus-title">Bonus participation</h2>
+      <p class="bonus-text">
+        Partagez le jeu concours à <strong>3 amis</strong><br>
+        ➡️ recevez une offre garantie de <span class="bonus-pill">−10%</span> lors du lancement.
+      </p>
+      <p class="bonus-text" style="margin-bottom:0">
+        Chaque participation est récompensée.
+      </p>
+      <p class="bonus-sub">Offre envoyée par email après vérification &nbsp;·&nbsp; Valable 30 jours après lancement</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     FORM
+================================================================ -->
+<section class="form-section" id="form">
+  <div class="container">
+    <div class="form-shell">
+
+      <div class="section-head reveal">
+        <div class="tag">📝 Inscription</div>
+        <h2 class="h2">Je <span class="green">participe</span></h2>
+        <p class="lead">Remplissez le formulaire pour valider votre participation</p>
+      </div>
+
+      <div class="form-card reveal">
+        <!--
+          Formulaire Netlify Forms
+          – data-netlify="true" active la collecte Netlify
+          – netlify-honeypot="bot-field" active l'anti-spam
+          – Le champ caché form-name est requis pour les soumissions AJAX
+        -->
+        <form
+          name="concours-moviflex"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          id="concoursForm"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="concours-moviflex">
+
+          <!-- Honeypot (invisible aux vrais utilisateurs) -->
+          <div style="display:none">
+            <label>Ne pas remplir : <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <!-- Nom / Prénom -->
+          <div class="form-row" style="margin-bottom:18px">
+            <div>
+              <label class="flabel" for="nom">Nom <span class="req">*</span></label>
+              <input type="text" id="nom" name="nom" class="finput" placeholder="Votre nom"
+                     required autocomplete="family-name">
+            </div>
+            <div>
+              <label class="flabel" for="prenom">Prénom <span class="req">*</span></label>
+              <input type="text" id="prenom" name="prenom" class="finput" placeholder="Votre prénom"
+                     required autocomplete="given-name">
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="flabel" for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" class="finput" placeholder="votre@email.com"
+                   required autocomplete="email">
+          </div>
+
+          <!-- Social handle (optional) -->
+          <div class="form-group" style="margin-bottom:0">
+            <label class="flabel" for="social">
+              Nom d'utilisateur TikTok ou Instagram
+              <span style="color:var(--text-3);font-weight:400">(optionnel)</span>
+            </label>
+            <input type="text" id="social" name="compte_social" class="finput"
+                   placeholder="@votre_pseudo" autocomplete="off">
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="checks">
+            <label class="chk-row">
+              <input type="checkbox" name="suivi_social" id="chkSocial" required>
+              <span class="chk-txt">Je confirme avoir <strong>suivi Moviflex</strong> sur TikTok ou Instagram</span>
+            </label>
+            <label class="chk-row">
+              <input type="checkbox" name="partage_concours" id="chkShare" required>
+              <span class="chk-txt">Je confirme avoir <strong>partagé le jeu concours</strong> à au moins 3 personnes</span>
+            </label>
+          </div>
+
+          <!-- Error message -->
+          <div class="ferror" id="ferror">
+            Veuillez remplir tous les champs obligatoires et cocher les deux cases.
+          </div>
+
+          <!-- Submit -->
+          <div class="form-submit">
+            <button type="submit" class="btn btn-green btn-full" id="submitBtn">
+              Valider ma participation
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="form-disclaimer">
+            <p>Participation validée sous réserve de vérification. Les gagnants devront être abonnés à au moins un des comptes Moviflex (TikTok ou Instagram) au moment du tirage au sort.</p>
+            <p>Une vérification pourra être demandée pour valider les gains.</p>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     CONFIRMATION (hidden until form submitted)
+================================================================ -->
+<section class="confirm-section" id="confirm">
+  <div class="container">
+    <div class="confirm-inner">
+      <div class="confirm-ico">🎉</div>
+      <h2 class="confirm-title">Merci pour votre participation !</h2>
+      <p class="confirm-body">
+        Vous êtes inscrit pour le lancement Moviflex.<br>
+        Vous recevrez un accès prioritaire ainsi que des offres exclusives.
+      </p>
+
+      <a href="#top" class="btn btn-outline">
+        Découvrir la marque
+      </a>
+
+      <div class="confirm-social">
+        <p>Restez connecté pour ne rien manquer du lancement</p>
+        <div class="social-row">
+          <a href="https://www.tiktok.com/@moviflexbykine" class="s-btn" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.95a8.27 8.27 0 004.84 1.55V7.07a4.85 4.85 0 01-1.07-.38z"/>
+            </svg>
+            TikTok
+          </a>
+          <a href="https://www.instagram.com/moviflexbykine/" class="s-btn" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="hr"></div></div>
+
+
+<!-- ================================================================
+     REASSURANCE
+================================================================ -->
+<section class="assur-section">
+  <div class="container">
+    <div class="assur-grid stagger reveal">
+
+      <div class="assur-item">
+        <div class="assur-ico">🇫🇷</div>
+        <div>
+          <div class="assur-name">Marque française</div>
+          <div class="assur-desc">Conçu et développé en France, pour un marché exigeant.</div>
+        </div>
+      </div>
+
+      <div class="assur-item">
+        <div class="assur-ico">🏃</div>
+        <div>
+          <div class="assur-name">Mobilité & performance</div>
+          <div class="assur-desc">Des produits pensés pour bouger mieux et performer au quotidien.</div>
+        </div>
+      </div>
+
+      <div class="assur-item">
+        <div class="assur-ico">⭐</div>
+        <div>
+          <div class="assur-name">Offres exclusives lancement</div>
+          <div class="assur-desc">Les inscrits bénéficient d'offres réservées aux premiers membres.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     LEGAL
+================================================================ -->
+<section class="legal-section">
+  <div class="container">
+    <div class="legal-wrap">
+      <p class="legal-label">Mentions légales du jeu concours</p>
+      <p class="legal-text">
+        Jeu concours sans obligation d'achat organisé par Moviflex. Ouvert à toute personne majeure résidant en France.
+        La participation implique le suivi d'au moins un compte officiel Moviflex (TikTok ou Instagram) et le partage du jeu concours
+        à au minimum 3 personnes. Les gagnants seront contactés par email après tirage au sort.
+        Moviflex se réserve le droit de vérifier le respect des conditions de participation.
+        Les offres de réduction seront valables 30 jours après le lancement officiel du produit.
+        En participant, vous acceptez de recevoir des communications Moviflex relatives au lancement et aux offres exclusives.
+        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <img src="https://raw.githubusercontent.com/MOVIFLEX-sketch/moviflex-assets/main/images/logo-blanc.png"
+         alt="Moviflex">
+  </div>
+  <p class="footer-txt">© 2026 Moviflex &nbsp;·&nbsp; Marque française &nbsp;·&nbsp; Bientôt sur Amazon</p>
+</footer>
+
+</div><!-- /light-body -->
+
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+  /* ---------- Scroll progress ---------- */
+  const prog = document.getElementById('prog');
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = max > 0 ? (window.scrollY / max * 100) + '%' : '0';
+  }, { passive: true });
+
+  /* ---------- Nav shadow on scroll ---------- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ---------- IntersectionObserver – reveal & stagger ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+
+  document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
+
+  /* Trigger hero elements immediately */
+  setTimeout(() => {
+    document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('in'));
+  }, 80);
+
+  /* ---------- Smooth scroll anchor links ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const offset = target.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Form submission (Netlify AJAX) ---------- */
+  const form       = document.getElementById('concoursForm');
+  const ferror     = document.getElementById('ferror');
+  const submitBtn  = document.getElementById('submitBtn');
+  const overlay    = document.getElementById('overlay');
+  const formSection = document.getElementById('form');
+  const confirmSection = document.getElementById('confirm');
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    /* Validate */
+    const nom      = document.getElementById('nom').value.trim();
+    const prenom   = document.getElementById('prenom').value.trim();
+    const email    = document.getElementById('email').value.trim();
+    const chkSocial = document.getElementById('chkSocial').checked;
+    const chkShare  = document.getElementById('chkShare').checked;
+
+    if (!nom || !prenom || !EMAIL_RE.test(email) || !chkSocial || !chkShare) {
+      ferror.classList.add('on');
+      ferror.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    ferror.classList.remove('on');
+
+    /* Submit */
+    overlay.classList.add('on');
+    submitBtn.disabled = true;
+
+    try {
+      const body = new URLSearchParams(new FormData(form)).toString();
+      const res  = await fetch('/', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+
+      if (res.ok) {
+        formSection.style.display = 'none';
+        confirmSection.classList.add('on');
+        confirmSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        throw new Error('server');
+      }
+    } catch {
+      ferror.textContent = 'Une erreur s\'est produite. Veuillez réessayer ou nous contacter directement.';
+      ferror.classList.add('on');
+      submitBtn.disabled = false;
+    } finally {
+      overlay.classList.remove('on');
+    }
+  });
+
+  /* ---------- Share buttons (step 02) ---------- */
+  (function initShare() {
+    const pageUrl  = window.location.href;
+    const msgText  = '🎁 Tentez de gagner votre kit Moviflex ! Rejoignez le jeu concours pré-lancement et gagnez un kit complet ou des offres exclusives. ';
+    const fullText = encodeURIComponent(msgText + pageUrl);
+    const subject  = encodeURIComponent('🎁 Jeu Concours Moviflex – Gagnez votre kit !');
+
+    const wa     = document.getElementById('shareWA');
+    const sms    = document.getElementById('shareSMS');
+    const em     = document.getElementById('shareEmail');
+    const native = document.getElementById('shareNative');
+
+    if (wa)  wa.href  = 'https://wa.me/?text=' + fullText;
+    if (sms) sms.href = 'sms:?body=' + fullText;
+    if (em)  em.href  = 'mailto:?subject=' + subject + '&body=' + fullText;
+
+    /* Native Web Share API — shown only when supported (mainly mobile) */
+    if (native) {
+      if (navigator.share) {
+        native.style.display = 'inline-flex';
+        native.addEventListener('click', () => {
+          navigator.share({
+            title: 'Jeu Concours Moviflex',
+            text:  '🎁 Tentez de gagner votre kit Moviflex ! Jeu concours pré-lancement.',
+            url:   pageUrl
+          }).catch(() => {});
+        });
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
