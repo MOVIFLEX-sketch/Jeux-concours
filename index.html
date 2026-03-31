@@ -1371,26 +1371,11 @@
       </div>
 
       <div class="form-card reveal">
-        <!--
-          Formulaire Netlify Forms
-          – data-netlify="true" active la collecte Netlify
-          – netlify-honeypot="bot-field" active l'anti-spam
-          – Le champ caché form-name est requis pour les soumissions AJAX
-        -->
-        <form
-          name="concours-moviflex"
-          method="POST"
-          action="/?merci=1"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          id="concoursForm"
-          novalidate
-        >
-          <input type="hidden" name="form-name" value="concours-moviflex">
+        <form id="concoursForm" novalidate>
 
-          <!-- Honeypot (invisible aux vrais utilisateurs) -->
-          <div style="display:none">
-            <label>Ne pas remplir : <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          <!-- Honeypot anti-spam (invisible — ne jamais remplir) -->
+          <div style="display:none" aria-hidden="true">
+            <label>Ne pas remplir : <input name="website" id="honeypot" tabindex="-1" autocomplete="off"></label>
           </div>
 
           <!-- Nom / Prénom -->
@@ -1433,6 +1418,10 @@
             <label class="chk-row">
               <input type="checkbox" name="partage_concours" id="chkShare" required>
               <span class="chk-txt">Je confirme avoir <strong>partagé le jeu concours</strong> à au moins 3 personnes</span>
+            </label>
+            <label class="chk-row">
+              <input type="checkbox" id="chkRGPD" required>
+              <span class="chk-txt">J'accepte de recevoir les communications Moviflex liées au lancement et aux offres exclusives <span class="req">*</span></span>
             </label>
           </div>
 
@@ -1620,43 +1609,69 @@
     });
   });
 
-  /* ---------- Form submission (Netlify AJAX) ---------- */
-  const form       = document.getElementById('concoursForm');
-  const ferror     = document.getElementById('ferror');
-  const submitBtn  = document.getElementById('submitBtn');
-  const overlay    = document.getElementById('overlay');
-  const formSection = document.getElementById('form');
+  /* ============================================================
+     FORMULAIRE — Envoi vers Make (webhook)
+     ➤ Remplacez la valeur de WEBHOOK_URL par votre vrai URL Make
+  ============================================================ */
+  const WEBHOOK_URL = 'https://hook.eu2.make.com/4rxrx9vpuj7a1wtewjun7xqaipa3fuur';
+
+  const form           = document.getElementById('concoursForm');
+  const ferror         = document.getElementById('ferror');
+  const submitBtn      = document.getElementById('submitBtn');
+  const overlay        = document.getElementById('overlay');
+  const formSection    = document.getElementById('form');
   const confirmSection = document.getElementById('confirm');
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let isSubmitting = false; // verrou anti double-envoi
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    /* Validate */
+    // Anti double-soumission
+    if (isSubmitting) return;
+
+    // Lecture des champs
     const nom      = document.getElementById('nom').value.trim();
     const prenom   = document.getElementById('prenom').value.trim();
     const email    = document.getElementById('email').value.trim();
+    const social   = document.getElementById('social').value.trim();
+    const honeypot = document.getElementById('honeypot').value;
     const chkSocial = document.getElementById('chkSocial').checked;
     const chkShare  = document.getElementById('chkShare').checked;
+    const chkRGPD   = document.getElementById('chkRGPD').checked;
 
-    if (!nom || !prenom || !EMAIL_RE.test(email) || !chkSocial || !chkShare) {
+    // Honeypot : bot détecté → abandon silencieux
+    if (honeypot) return;
+
+    // Validation
+    if (!nom || !prenom || !EMAIL_RE.test(email) || !chkSocial || !chkShare || !chkRGPD) {
+      ferror.textContent = 'Veuillez remplir tous les champs obligatoires et cocher les cases.';
       ferror.classList.add('on');
       ferror.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
     ferror.classList.remove('on');
 
-    /* Submit */
+    // Envoi
+    isSubmitting = true;
     overlay.classList.add('on');
     submitBtn.disabled = true;
 
     try {
-      const body = new URLSearchParams(new FormData(form)).toString();
-      const res  = await fetch('/', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prenom,
+          nom,
+          email,
+          instagram:        social || null,
+          suivi_social:     chkSocial,
+          partage_concours: chkShare,
+          rgpd:             chkRGPD,
+          date_inscription: new Date().toISOString()
+        })
       });
 
       if (res.ok) {
@@ -1667,8 +1682,9 @@
         throw new Error('server');
       }
     } catch {
-      ferror.textContent = 'Une erreur s\'est produite. Veuillez réessayer ou nous contacter directement.';
+      ferror.textContent = 'Une erreur s\'est produite. Veuillez réessayer dans quelques instants.';
       ferror.classList.add('on');
+      isSubmitting = false;
       submitBtn.disabled = false;
     } finally {
       overlay.classList.remove('on');
